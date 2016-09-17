@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{1E1477BB-D81F-F50C-20E8-5191C72B8D29}") = "ARPresident", "Assembly-CSharp.csproj", "{71091926-4059-94E6-FCC0-BF517567E216}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71091926-4059-94E6-FCC0-BF517567E216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71091926-4059-94E6-FCC0-BF517567E216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71091926-4059-94E6-FCC0-BF517567E216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71091926-4059-94E6-FCC0-BF517567E216}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
