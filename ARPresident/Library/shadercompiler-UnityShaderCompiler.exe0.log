@@ -1,2 +1,4 @@
 Base path: C:/Program Files/Unity HoloLens 5.4.0f3-HTP/Editor/Data
 Cmd: getPlatforms
+Cmd: preprocess
+  insize=1325 outsize=672 ok=1
