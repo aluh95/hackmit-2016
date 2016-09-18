@@ -21,6 +21,8 @@ public class DataVisualizer : MonoBehaviour {
     public static List<ElectoralVote> electoralVotes = new List<ElectoralVote>();
     public static List<Material> stateMats = new List<Material>();
 
+    private GameObject dateDisplay;
+
     // Use this for initialization
     void Start() {
         // read and parse state electoral vote data from local csv file
@@ -29,6 +31,22 @@ public class DataVisualizer : MonoBehaviour {
         List<ElectoralVote> electoralVotes = ElectoralVoteParser.Parse(electoralVoteData);
         // add materials
         stateMats.Add(Resources.Load("white") as Material);
+        // initialize date display at fixed position relative to camera
+        dateDisplay = GameObject.Find("Date Display");
+        Vector3 sc = dateDisplay.transform.localScale;
+        GameObject dateText = new GameObject();
+        dateText.name = "Date Text";
+        dateText.transform.parent = dateDisplay.transform;
+        dateText.transform.position = dateDisplay.transform.position;
+        dateText.transform.rotation = dateDisplay.transform.rotation;
+        dateText.transform.localScale = new Vector3(0.001155f / sc.x, 0.0005f / sc.y, .05f / sc.z);
+        TextMesh dateTextMesh = dateText.AddComponent<TextMesh>();
+        dateTextMesh.text = "Current Date";
+        dateTextMesh.anchor = TextAnchor.MiddleCenter;
+        dateTextMesh.offsetZ = -0.1f;
+        dateTextMesh.color = Color.black;
+        dateTextMesh.fontSize = 500;
+        dateTextMesh.fontStyle = FontStyle.Bold;
         // generate landscape of 50 states in the USA
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
