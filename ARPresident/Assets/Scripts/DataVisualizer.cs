@@ -104,6 +104,7 @@ public class DataVisualizer : MonoBehaviour {
                 Vector3 positionVector = state.transform.localPosition;
                 state.transform.localPosition = new Vector3(positionVector.x, -(0.1f * currentEV.Votes) / 2, positionVector.z );
                 // set color of state based on poll ratio of Clinton over Trump
+                Debug.Log(currentEV.State + ": " + currentEV.Date1.ToString());
                 if (currentEV.Date1 < 0.76f) {
                     state.GetComponent<Renderer>().material = stateMats[1];
                 } else if (currentEV.Date1 >= 0.76f && currentEV.Date1 < 0.90f) {
