@@ -19,6 +19,7 @@ public class DataVisualizer : MonoBehaviour {
     private string electoralVotePath = "/Electoral.csv";
 
     public static List<ElectoralVote> electoralVotes = new List<ElectoralVote>();
+    public static List<Material> stateMats = new List<Material>();
 
     // Use this for initialization
     void Start() {
@@ -26,6 +27,8 @@ public class DataVisualizer : MonoBehaviour {
         electoralVotePath = Application.streamingAssetsPath + "/Electoral.csv";
         electoralVoteData = File.ReadAllText(electoralVotePath);
         List<ElectoralVote> electoralVotes = ElectoralVoteParser.Parse(electoralVoteData);
+        // add materials
+        stateMats.Add(Resources.Load("white") as Material);
         // generate landscape of 50 states in the USA
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
@@ -35,7 +38,7 @@ public class DataVisualizer : MonoBehaviour {
                 state.name = currentEV.State;
                 state.transform.localScale = new Vector3(0.05f, 0.01f * (currentEV.Votes), 0.05f);
                 state.transform.position = new Vector3((j - 4.5f) / 8, (0.01f * currentEV.Votes) / 2 - 0.5f, (10 - 2 * i) / 8.0f + 1.5f);
-                state.GetComponent<Renderer>().material.color = Color.white;
+                state.GetComponent<Renderer>().material = stateMats[0];
                 // create labels for state objects
                 Vector3 scale = state.transform.localScale;
                 GameObject labelText = new GameObject();
