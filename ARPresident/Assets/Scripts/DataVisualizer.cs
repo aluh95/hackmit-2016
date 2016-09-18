@@ -41,12 +41,12 @@ public class DataVisualizer : MonoBehaviour {
                 labelText.name = stateNames[index] + " label";
                 labelText.transform.parent = state.transform;
                 labelText.transform.position = state.transform.position;
-                labelText.transform.localScale = new Vector3(scale.x / 3.0f, scale.y / 120.0f, scale.z);
+                labelText.transform.localScale = new Vector3(scale.x / 5f, 0.000361f / (scale.y), scale.z);
                 TextMesh labelTextMesh = labelText.AddComponent<TextMesh>();
                 labelTextMesh.text = stateNames[index];
                 labelTextMesh.anchor = TextAnchor.MiddleCenter;
                 labelTextMesh.color = Color.black;
-                labelTextMesh.fontSize = 1080;
+                labelTextMesh.fontSize = 2000;
                 labelTextMesh.fontStyle = FontStyle.Bold;
             }
         }
