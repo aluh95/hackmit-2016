@@ -18,14 +18,15 @@ public class DataVisualizer : MonoBehaviour {
                                     "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
                                     "West Virginia", "Wisconsin", "Wyoming" };
     private string electoralVoteData;
-    private string electoralVotePath = @"Assets\Data\Electoral.csv";
+    private string electoralVotePath = "/Electoral.csv";
 
     public static List<ElectoralVote> electoralVotes = new List<ElectoralVote>();
 
     // Use this for initialization
     void Start() {
         // read and parse state electoral vote data from local csv file
-        electoralVoteData = System.IO.File.ReadAllText(electoralVotePath);
+        electoralVotePath = Application.streamingAssetsPath + "/Electoral.csv";
+        electoralVoteData = File.ReadAllText(electoralVotePath);
         List<ElectoralVote> electoralVotes = ElectoralVoteParser.Parse(electoralVoteData);
         // create landscape of 50 states in the USA
         for (int i = 0; i < 5; i++) {
@@ -34,8 +35,8 @@ public class DataVisualizer : MonoBehaviour {
                 GameObject state = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 ElectoralVote currentEV = electoralVotes[index];
                 state.name = stateNames[index];
-                state.transform.localScale = new Vector3(0.25f, 0.25f * currentEV.Votes, 0.25f);
-                state.transform.position = new Vector3(j - 4.5f, (0.25f * currentEV.Votes) / 2, 10 - 2 * i);
+                state.transform.localScale = new Vector3(0.1f, 0.01f * (currentEV.Votes), 0.1f);
+                state.transform.position = new Vector3((j - 4.5f)/2.5f, (0.01f * currentEV.Votes) / 2 - 0.5f, (10 - 2 * i)/2.5f);
             }
         }
 

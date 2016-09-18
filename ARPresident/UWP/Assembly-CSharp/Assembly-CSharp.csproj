@@ -130,7 +130,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:/Users/aluh/Documents/My Documents/MIT 2017/Fall 2016/hackmit/ARPresident/Assets\..\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
+    <ProjectReference Include="C:/Users/sujoe/SSD/HoloLens/hackmit/ARPresident/Assets\..\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
       <Project>{194d914d-0664-444e-b663-4d0f1c80af68}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
