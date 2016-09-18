@@ -34,14 +34,15 @@ public class DataVisualizer : MonoBehaviour {
                 ElectoralVote currentEV = electoralVotes[index];
                 state.name = currentEV.State;
                 state.transform.localScale = new Vector3(0.05f, 0.01f * (currentEV.Votes), 0.05f);
-                state.transform.position = new Vector3((j - 4.5f) / 8, (0.01f * currentEV.Votes) / 2 - 0.5f, (10 - 2 * i) / 2.5f + 1);
+                state.transform.position = new Vector3((j - 4.5f) / 8, (0.01f * currentEV.Votes) / 2 - 0.5f, (10 - 2 * i) / 8.0f + 1.5f);
+                state.GetComponent<Renderer>().material.color = Color.white;
                 // create labels for state objects
                 Vector3 scale = state.transform.localScale;
                 GameObject labelText = new GameObject();
                 labelText.name = stateNames[index] + " label";
                 labelText.transform.parent = state.transform;
                 labelText.transform.position = state.transform.position;
-                labelText.transform.localScale = new Vector3(scale.x / 5f, 0.000361f / (scale.y), scale.z);
+                labelText.transform.localScale = new Vector3(scale.x / 5f, 0.000361f / scale.y, scale.z);
                 TextMesh labelTextMesh = labelText.AddComponent<TextMesh>();
                 labelTextMesh.text = stateNames[index];
                 labelTextMesh.anchor = TextAnchor.MiddleCenter;
