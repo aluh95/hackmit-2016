@@ -59,7 +59,7 @@ public class DataVisualizer : MonoBehaviour {
         // read and parse state electoral vote data from local csv file
         electoralVotePath = Application.streamingAssetsPath + "/Electoral.csv";
         electoralVoteData = File.ReadAllText(electoralVotePath);
-        List<ElectoralVote> electoralVotes = ElectoralVoteParser.Parse(electoralVoteData);
+        electoralVotes = ElectoralVoteParser.Parse(electoralVoteData);
         // add materials
         stateMats.Add(Resources.Load("white") as Material);
         stateMats.Add(Resources.Load("darkRed") as Material);
@@ -151,18 +151,47 @@ public class DataVisualizer : MonoBehaviour {
         if (dayCounter < 6) {
             dayCounter += 1;
         }
-        
+        ShowDay(dayCounter);
     }
 
     // Called when the user says "Previous date"
     void PreviousDate() {
-        if (dayCounter > 1) {
+        if (dayCounter > 0) {
             dayCounter -= 1;
         }
+        ShowDay(dayCounter);
     }
 
     private void ShowDay(int dayNumber) {
-
+        for (int i = 0; i < 50; i++) {
+            Debug.Log("Current index : " + i);
+            ElectoralVote currentEV = electoralVotes[i];
+            List<float> votesByDate = new List<float>();
+            votesByDate.Add(currentEV.Date1);
+            votesByDate.Add(currentEV.Date2);
+            votesByDate.Add(currentEV.Date3);
+            votesByDate.Add(currentEV.Date4);
+            votesByDate.Add(currentEV.Date5);
+            votesByDate.Add(currentEV.Date6);
+            votesByDate.Add(currentEV.Date7);
+            Debug.Log("votesByDate size: " + votesByDate.Count);
+            GameObject state = GameObject.Find(((string)currentEV.State).Replace(' ', '_'));
+            Debug.Log("Day: " + dayNumber);
+            float numVotes = votesByDate[dayNumber];
+            Debug.Log(currentEV.State + ": " + numVotes);
+            if (numVotes < 0.76f) {
+                state.GetComponent<Renderer>().material = stateMats[1];
+            } else if (numVotes >= 0.76f && numVotes < 0.90f) {
+                state.GetComponent<Renderer>().material = stateMats[2];
+            } else if (numVotes >= 0.90f && numVotes < 1.10f) {
+                state.GetComponent<Renderer>().material = stateMats[3];
+            } else if (numVotes >= 1.10f && numVotes < 1.24f) {
+                state.GetComponent<Renderer>().material = stateMats[4];
+            } else if (numVotes >= 1.24f) {
+                state.GetComponent<Renderer>().material = stateMats[5];
+            }
+            dateDisplay.GetComponentInChildren<TextMesh>().text = dates[dayNumber];
+        }
     }
 }
 
