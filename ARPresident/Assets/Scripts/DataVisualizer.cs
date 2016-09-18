@@ -62,7 +62,6 @@ public class DataVisualizer : MonoBehaviour {
                 state.GetComponent<Renderer>().material = stateMats[0];
                 state.GetComponent<Renderer>().material.shader = textShader[0];
                 // create labels for state objects
-
                 Vector3 scale = state.transform.localScale;
                 GameObject labelText = new GameObject();
                 labelText.name = stateNames[index] + " label";
