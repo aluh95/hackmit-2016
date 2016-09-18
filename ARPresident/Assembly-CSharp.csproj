@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\DataVisualizer.cs" />
      <Compile Include="Assets\Scripts\ElectoralVote.cs" />
      <Compile Include="Assets\Scripts\ElectoralVoteParser.cs" />
+     <None Include="Assets\Resources\3TextShader.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity HoloLens 5.4.0f3-HTP/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
