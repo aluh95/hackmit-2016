@@ -23,6 +23,7 @@ public class DataVisualizer : MonoBehaviour {
     public static List<ElectoralVote> electoralVotes = new List<ElectoralVote>();
     public static List<Material> stateMats = new List<Material>();
     public static List<Shader> textShader = new List<Shader>();
+    public static float yScaleFactor = 14.28571f;
 
     private GameObject dateDisplay;
 
@@ -44,18 +45,19 @@ public class DataVisualizer : MonoBehaviour {
         dateText.transform.parent = dateDisplay.transform;
         dateText.transform.position = dateDisplay.transform.position;
         dateText.transform.rotation = dateDisplay.transform.rotation;
-        dateText.transform.localScale = new Vector3(0.001155f / sc.x, 0.0005f / sc.y, .05f / sc.z);
+        dateText.transform.localScale = new Vector3(0.0005775f / sc.x, 0.0003f / sc.y, .0025f / sc.z);
         TextMesh dateTextMesh = dateText.AddComponent<TextMesh>();
         dateTextMesh.text = dates[0];
         dateTextMesh.anchor = TextAnchor.MiddleCenter;
         dateTextMesh.offsetZ = -0.1f;
-        dateTextMesh.color = Color.black;
+        dateTextMesh.color = Color.white;
         dateTextMesh.fontSize = 500;
         dateTextMesh.fontStyle = FontStyle.Bold;
         // generate landscape of 50 states in the USA
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
                 int index = i * 10 + j;
+                /*
                 GameObject state = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 ElectoralVote currentEV = electoralVotes[index];
                 state.name = currentEV.State;
@@ -63,19 +65,28 @@ public class DataVisualizer : MonoBehaviour {
                 state.transform.position = new Vector3((j - 4.5f) / 8, (0.01f * currentEV.Votes) / 2 - 0.5f, (10 - 2 * i) / 8.0f + 1.5f);
                 state.GetComponent<Renderer>().material = stateMats[0];
                 state.GetComponent<Renderer>().material.shader = textShader[0];
+                */
+                ElectoralVote currentEV = electoralVotes[index];
+                GameObject state = GameObject.Find(((string)currentEV.State).Replace(' ', '_'));
+                state.transform.localScale = new Vector3(1, 1, 0.1f * (currentEV.Votes) * yScaleFactor);
+                Vector3 positionVector = state.transform.localPosition;
+                state.transform.localPosition = new Vector3(positionVector.x, -(0.1f * currentEV.Votes) / 2, positionVector.z );
+                state.GetComponent<Renderer>().material = stateMats[0];
+                state.GetComponent<Renderer>().material.shader = textShader[0];
+                state.AddComponent<UnityEngine.UI.Outline>();
                 // create labels for state objects
                 Vector3 scale = state.transform.localScale;
                 GameObject labelText = new GameObject();
                 labelText.name = stateNames[index] + " label";
                 labelText.transform.parent = state.transform;
                 labelText.transform.position = state.transform.position;
-                labelText.transform.localScale = new Vector3(scale.x / 5f, 0.000361f / scale.y, scale.z);
+                labelText.transform.localScale = new Vector3(scale.x / 10f, 0.0000361f / scale.y, scale.z);
                 TextMesh labelTextMesh = labelText.AddComponent<TextMesh>();
                 labelTextMesh.GetComponent<Renderer>().material.shader = textShader[0];
                 labelTextMesh.text = stateNames[index];
-                labelTextMesh.offsetZ = -0.1f;
-                labelTextMesh.anchor = TextAnchor.MiddleCenter;
-                labelTextMesh.color = Color.white;
+                labelTextMesh.offsetZ = (float)(state.transform.localScale.z*0.070d/2);
+                labelTextMesh.anchor = TextAnchor.UpperCenter;
+                labelTextMesh.color = Color.black;
                 labelTextMesh.fontSize = 2000;
                 labelTextMesh.fontStyle = FontStyle.Bold;
             }
