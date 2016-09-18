@@ -15,6 +15,8 @@ public class DataVisualizer : MonoBehaviour {
                                     "NM", "NY", "NC", "ND", "OH", "OK",
                                     "OR", "PA", "RI", "SC", "SD", "TN",
                                     "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" };
+    private string[] dates = { "Jun. 8, 2016", "Jul. 1, 2016", "Jul. 18, 2016: RNC", "Jul. 25, 2016: DNC",
+                                "Aug. 15, 2016", "Sept. 1, 2016", "Sept. 17, 2016" };
     private string electoralVoteData;
     private string electoralVotePath = "/Electoral.csv";
 
@@ -44,7 +46,7 @@ public class DataVisualizer : MonoBehaviour {
         dateText.transform.rotation = dateDisplay.transform.rotation;
         dateText.transform.localScale = new Vector3(0.001155f / sc.x, 0.0005f / sc.y, .05f / sc.z);
         TextMesh dateTextMesh = dateText.AddComponent<TextMesh>();
-        dateTextMesh.text = "Current Date";
+        dateTextMesh.text = dates[0];
         dateTextMesh.anchor = TextAnchor.MiddleCenter;
         dateTextMesh.offsetZ = -0.1f;
         dateTextMesh.color = Color.black;
@@ -73,7 +75,7 @@ public class DataVisualizer : MonoBehaviour {
                 labelTextMesh.text = stateNames[index];
                 labelTextMesh.offsetZ = -0.1f;
                 labelTextMesh.anchor = TextAnchor.MiddleCenter;
-                labelTextMesh.color = Color.black;
+                labelTextMesh.color = Color.white;
                 labelTextMesh.fontSize = 2000;
                 labelTextMesh.fontStyle = FontStyle.Bold;
             }
