@@ -104,7 +104,6 @@ public class DataVisualizer : MonoBehaviour {
                 Vector3 positionVector = state.transform.localPosition;
                 state.transform.localPosition = new Vector3(positionVector.x, -(0.1f * currentEV.Votes) / 2, positionVector.z );
                 // set color of state based on poll ratio of Clinton over Trump
-                Debug.Log(currentEV.State + ": " + currentEV.Date1.ToString());
                 if (currentEV.Date1 < 0.76f) {
                     state.GetComponent<Renderer>().material = stateMats[1];
                 } else if (currentEV.Date1 >= 0.76f && currentEV.Date1 < 0.90f) {
@@ -152,7 +151,7 @@ public class DataVisualizer : MonoBehaviour {
         if (dayCounter < 6) {
             dayCounter += 1;
         }
-        
+        ShowDay(dayCounter);
     }
 
     // Called when the user says "Previous date"
@@ -160,10 +159,35 @@ public class DataVisualizer : MonoBehaviour {
         if (dayCounter > 1) {
             dayCounter -= 1;
         }
+        ShowDay(dayCounter);
     }
 
     private void ShowDay(int dayNumber) {
-
+        for (int i = 0; i < 50; i++) {
+            ElectoralVote currentEV = electoralVotes[i];
+            List<float> votesByDate = new List<float>();
+            votesByDate.Add(currentEV.Date1);
+            votesByDate.Add(currentEV.Date2);
+            votesByDate.Add(currentEV.Date3);
+            votesByDate.Add(currentEV.Date4);
+            votesByDate.Add(currentEV.Date5);
+            votesByDate.Add(currentEV.Date6);
+            votesByDate.Add(currentEV.Date7);
+            GameObject state = GameObject.Find(((string)currentEV.State).Replace(' ', '_'));
+            float numVotes = votesByDate[dayNumber];
+            Debug.Log(currentEV.State + ": " + numVotes);
+            if (numVotes < 0.76f) {
+                state.GetComponent<Renderer>().material = stateMats[1];
+            } else if (numVotes >= 0.76f && numVotes < 0.90f) {
+                state.GetComponent<Renderer>().material = stateMats[2];
+            } else if (numVotes >= 0.90f && numVotes < 1.10f) {
+                state.GetComponent<Renderer>().material = stateMats[3];
+            } else if (numVotes >= 1.10f && numVotes < 1.24f) {
+                state.GetComponent<Renderer>().material = stateMats[4];
+            } else if (numVotes >= 1.24f) {
+                state.GetComponent<Renderer>().material = stateMats[5];
+            }
+        }
     }
 }
 
