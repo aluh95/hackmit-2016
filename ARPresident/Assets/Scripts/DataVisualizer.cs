@@ -134,6 +134,8 @@ public class DataVisualizer : MonoBehaviour {
                 labelTextMesh.color = Color.black;
                 labelTextMesh.fontSize = 2000;
                 labelTextMesh.fontStyle = FontStyle.Bold;
+
+                state.AddComponent<StateCommands>();
             }
         }
 
