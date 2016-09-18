@@ -187,6 +187,7 @@ public class DataVisualizer : MonoBehaviour {
             } else if (numVotes >= 1.24f) {
                 state.GetComponent<Renderer>().material = stateMats[5];
             }
+            dateDisplay.GetComponentInChildren<TextMesh>().text = dates[dayNumber];
         }
     }
 }
