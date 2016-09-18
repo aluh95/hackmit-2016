@@ -20,6 +20,7 @@ public class DataVisualizer : MonoBehaviour {
 
     public static List<ElectoralVote> electoralVotes = new List<ElectoralVote>();
     public static List<Material> stateMats = new List<Material>();
+    public static List<Shader> textShader = new List<Shader>();
 
     private GameObject dateDisplay;
 
@@ -31,6 +32,8 @@ public class DataVisualizer : MonoBehaviour {
         List<ElectoralVote> electoralVotes = ElectoralVoteParser.Parse(electoralVoteData);
         // add materials
         stateMats.Add(Resources.Load("white") as Material);
+        // add text shader
+        textShader.Add(Resources.Load("3TextShader") as Shader);
         // initialize date display at fixed position relative to camera
         dateDisplay = GameObject.Find("Date Display");
         Vector3 sc = dateDisplay.transform.localScale;
@@ -57,7 +60,9 @@ public class DataVisualizer : MonoBehaviour {
                 state.transform.localScale = new Vector3(0.05f, 0.01f * (currentEV.Votes), 0.05f);
                 state.transform.position = new Vector3((j - 4.5f) / 8, (0.01f * currentEV.Votes) / 2 - 0.5f, (10 - 2 * i) / 8.0f + 1.5f);
                 state.GetComponent<Renderer>().material = stateMats[0];
+                state.GetComponent<Renderer>().material.shader = textShader[0];
                 // create labels for state objects
+
                 Vector3 scale = state.transform.localScale;
                 GameObject labelText = new GameObject();
                 labelText.name = stateNames[index] + " label";
@@ -65,7 +70,9 @@ public class DataVisualizer : MonoBehaviour {
                 labelText.transform.position = state.transform.position;
                 labelText.transform.localScale = new Vector3(scale.x / 5f, 0.000361f / scale.y, scale.z);
                 TextMesh labelTextMesh = labelText.AddComponent<TextMesh>();
+                labelTextMesh.GetComponent<Renderer>().material.shader = textShader[0];
                 labelTextMesh.text = stateNames[index];
+                labelTextMesh.offsetZ = -0.1f;
                 labelTextMesh.anchor = TextAnchor.MiddleCenter;
                 labelTextMesh.color = Color.black;
                 labelTextMesh.fontSize = 2000;
