@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using electoralVote;
 using electoralVoteParser;
+using System.Linq;
+using UnityEngine.Windows.Speech;
 
 public class DataVisualizer : MonoBehaviour {
 
@@ -26,15 +28,45 @@ public class DataVisualizer : MonoBehaviour {
     public static float yScaleFactor = 14.28571f;
 
     private GameObject dateDisplay;
+    private GameObject scriptHolder;
+    public static int dayCounter = 0;
+
+    KeywordRecognizer keywordRecognizer = null;
+    Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
     // Use this for initialization
     void Start() {
+        scriptHolder = GameObject.Find("ScriptHolder");
+        keywords.Add("Next date", () =>
+        {
+            // Call the NextDate method on the cursor.
+            scriptHolder.SendMessage("NextDate");
+        });
+
+        keywords.Add("Previous date", () =>
+        {
+            // Call the PreviousDate method on the cursor.
+            scriptHolder.SendMessage("PreviousDate");
+        });
+
+        // Tell the KeywordRecognizer about the keywords.
+        keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
+
+        // Register a callback for the KeywordRecognizer and start recognizing!
+        keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
+        keywordRecognizer.Start();
+
         // read and parse state electoral vote data from local csv file
         electoralVotePath = Application.streamingAssetsPath + "/Electoral.csv";
         electoralVoteData = File.ReadAllText(electoralVotePath);
         List<ElectoralVote> electoralVotes = ElectoralVoteParser.Parse(electoralVoteData);
         // add materials
         stateMats.Add(Resources.Load("white") as Material);
+        stateMats.Add(Resources.Load("darkRed") as Material);
+        stateMats.Add(Resources.Load("lightRed") as Material);
+        stateMats.Add(Resources.Load("neutral") as Material);
+        stateMats.Add(Resources.Load("lightBlue") as Material);
+        stateMats.Add(Resources.Load("darkBlue") as Material);
         // add text shader
         textShader.Add(Resources.Load("3TextShader") as Shader);
         // initialize date display at fixed position relative to camera
@@ -71,7 +103,18 @@ public class DataVisualizer : MonoBehaviour {
                 state.transform.localScale = new Vector3(1, 1, 0.1f * (currentEV.Votes) * yScaleFactor);
                 Vector3 positionVector = state.transform.localPosition;
                 state.transform.localPosition = new Vector3(positionVector.x, -(0.1f * currentEV.Votes) / 2, positionVector.z );
-                state.GetComponent<Renderer>().material = stateMats[0];
+                // set color of state based on poll ratio of Clinton over Trump
+                if (currentEV.Date1 < 0.76) {
+                    state.GetComponent<Renderer>().material = stateMats[1];
+                } else if (currentEV.Date1 >= 0.76 && currentEV.Date1 < 0.90) {
+                    state.GetComponent<Renderer>().material = stateMats[2];
+                } else if (currentEV.Date1 >= 0.90 && currentEV.Date1 < 1.10) {
+                    state.GetComponent<Renderer>().material = stateMats[3];
+                } else if (currentEV.Date1 >= 1.10 && currentEV.Date1 < 1.24) {
+                    state.GetComponent<Renderer>().material = stateMats[4];
+                } else if (currentEV.Date1 >= 1.24) {
+                    state.GetComponent<Renderer>().material = stateMats[5];
+                }
                 state.GetComponent<Renderer>().material.shader = textShader[0];
                 state.AddComponent<UnityEngine.UI.Outline>();
                 // create labels for state objects
@@ -94,8 +137,29 @@ public class DataVisualizer : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args) {
+        System.Action keywordAction;
+        if (keywords.TryGetValue(args.text, out keywordAction)) {
+            keywordAction.Invoke();
+        }
+    }
+
+    // Called when the user says "Next date"
+    void NextDate() {
+        if (dayCounter < 6) {
+            dayCounter += 1;
+        }
+        
+    }
+
+    // Called when the user says "Previous date"
+    void PreviousDate() {
+        if (dayCounter > 1) {
+            dayCounter -= 1;
+        }
+    }
+
+    private void ShowDay(int dayNumber) {
 
     }
 }
